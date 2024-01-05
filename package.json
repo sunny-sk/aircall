@@ -9,6 +9,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 3000 --open",
+    "start": "vite --port 3000 --open",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
