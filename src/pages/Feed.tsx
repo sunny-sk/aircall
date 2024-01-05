@@ -1,5 +1,6 @@
 import { DataTable } from "@/components/table/components/data-table"
 import { columns } from "@/components/table/components/columns"
+import PhoneList from "@/components/phone-list"
 import { callSchema } from "@/types/schema"
 import { z } from "zod";
 import { Helmet } from "react-helmet";
@@ -24,7 +25,16 @@ export default function Feed() {
         <title>Home | Aircall</title>
       </Helmet>
       {/* table */}
-      {!isLoading && data && <DataTable data={data} columns={columns} />}
+      {!isLoading && data && <>
+        <div className="md:hidden">
+          <PhoneList data={data} />
+        </div>
+        <div className="hidden md:block">
+          <DataTable data={data} columns={columns} />
+        </div>
+      </>
+      }
+
       {isLoading && <DataTableLoader />}
     </>
   )

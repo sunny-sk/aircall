@@ -1,6 +1,8 @@
+/* eslint-disable no-dupe-else-if */
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import parsePhoneNumber from "libphonenumber-js";
+import { Call } from "@/types/schema";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -25,4 +27,12 @@ export function formatPhoneNumber(phoneNumberString: string) {
     fromCountry: "US",
   });
   return phone;
+}
+
+export function getNumber(data: Call) {
+  if (data.direction == "outbound") {
+    return data.to || data.via;
+  } else {
+    return data.from || data.via;
+  }
 }

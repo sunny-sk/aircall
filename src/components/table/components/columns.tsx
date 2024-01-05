@@ -6,7 +6,7 @@ import { Call } from "../../../types/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { PhoneIncoming, PhoneOutgoing } from "lucide-react"
-import { convertSecondstoTime, formatPhoneNumber } from "@/lib/utils"
+import { convertSecondstoTime, getNumber } from "@/lib/utils"
 import { Link } from 'react-router-dom';
 
 export const columns: ColumnDef<Call>[] = [
@@ -15,9 +15,9 @@ export const columns: ColumnDef<Call>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Phone Number" />
     ),
-    cell: ({ row }) => <div className="w-[80px] text-blue-600">
+    cell: ({ row }) => <div className="w-[100px] text-blue-600">
       <Link to={`/details/${row.original.id}`}>
-        <u>{formatPhoneNumber("+33" + row.getValue("via")) || "-"}</u>
+        <u>{`+33 ${getNumber(row.original)}`}</u>
       </Link>
     </div>,
     enableSorting: false,

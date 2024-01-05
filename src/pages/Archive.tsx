@@ -4,6 +4,7 @@ import { callSchema } from "@/types/schema"
 import { z } from "zod";
 import { Helmet } from "react-helmet";
 import axios from 'axios';
+import PhoneList from "@/components/phone-list"
 
 import { useQuery } from "@tanstack/react-query"
 import { BASE_URL } from "@/constants"
@@ -24,7 +25,15 @@ export default function Archive() {
         <title>Archive | Aircall</title>
       </Helmet>
       {/* table */}
-      {!isLoading && data && <DataTable data={data} columns={columns} />}
+      {!isLoading && data && <>
+        <div className="md:hidden">
+          <PhoneList data={data} />
+        </div>
+        <div className="hidden md:block">
+          <DataTable data={data} columns={columns} />
+        </div>
+      </>
+      }
       {isLoading && <DataTableLoader />}
     </>
   )
