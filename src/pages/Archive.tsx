@@ -1,8 +1,7 @@
 
-import { Call, callSchema } from "@/types/schema";
+import { Call } from "@/types/schema";
 import axios from 'axios';
 import { Helmet } from "react-helmet";
-import z from 'zod';
 
 import { BASE_URL } from "@/constants";
 import { useQuery } from "@tanstack/react-query";
@@ -14,7 +13,7 @@ export default function Archive() {
     queryKey: ['archived'], queryFn: () =>
       axios
         .get(BASE_URL + '/activities')
-        .then((res) => z.array(callSchema).parse(res.data.filter((item: Call) => item.is_archived))),
+        .then((res) => res.data.filter((item: Call) => item.is_archived)),
   })
 
   return (
