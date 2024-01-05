@@ -1,32 +1,45 @@
 
+import { Toaster } from "@/components/ui/sonner";
+import Archive from "@/pages/Archive";
+import Feed from "@/pages/Feed";
+import FeedDetails from "@/pages/FeedDetails";
+import {
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Feed from "@/pages/Feed";
-import FeedDetails from "@/pages/FeedDetails";
-import Archive from "@/pages/Archive";
-
+import DesktopLayout from "./Layout/Desktop-layout";
+const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Feed />,
+    element: <DesktopLayout />,
     children: [
       {
-        path: "/details/:feedId",
-        element: <FeedDetails />,
+        index: true,
+        element: <Feed />,
       },
       {
-        path: "/achive",
+        path: "/archive",
         element: <Archive />,
-      },
-    ],
+      }
+    ]
+  },
+  {
+    path: "/details/:feedId",
+    element: <FeedDetails />,
   },
 ]);
 
 const App = () => {
   return (
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <Toaster />
+    </QueryClientProvider>
   )
 }
 

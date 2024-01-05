@@ -5,6 +5,9 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Call } from "../../../types/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
+import { PhoneIncoming, PhoneOutgoing } from "lucide-react"
+import { convertSecondstoTime, formatPhoneNumber } from "@/lib/utils"
+import { Link } from 'react-router-dom';
 
 export const columns: ColumnDef<Call>[] = [
   {
@@ -12,7 +15,11 @@ export const columns: ColumnDef<Call>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Phone Number" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("via")}</div>,
+    cell: ({ row }) => <div className="w-[80px] text-blue-600">
+      <Link to={`/details/${row.original.id}`}>
+        <u>{formatPhoneNumber("+33" + row.getValue("via")) || "-"}</u>
+      </Link>
+    </div>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -25,7 +32,17 @@ export const columns: ColumnDef<Call>[] = [
       return (
         <div className="flex space-x-2">
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("direction")}
+            {row.getValue("direction") == 'outbound' ?
+              <div className="flex items-center space-x-1">
+                <PhoneOutgoing color="green" className="h-4" />
+                <span>Outgoing</span>
+              </div>
+              :
+              <div className="flex items-center space-x-1">
+                <PhoneIncoming className="h-4" color="red" />
+                <span>Incoming</span>
+              </div>
+            }
           </span>
         </div>
       )
@@ -40,7 +57,7 @@ export const columns: ColumnDef<Call>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex w-[100px] items-center">
-          <span>{row.getValue("duration")}</span>
+          <span>{convertSecondstoTime(row.getValue("duration"))}</span>
         </div>
       )
     },
@@ -57,7 +74,7 @@ export const columns: ColumnDef<Call>[] = [
 
       return (
         <div className="flex items-center">
-          <span>{row.getValue('created_at')}</span>
+          <span>{new Date(row.getValue('created_at')).toLocaleString()}</span>
         </div>
       )
     },
@@ -66,7 +83,7 @@ export const columns: ColumnDef<Call>[] = [
     },
   },
   {
-    id: "actions",
-    cell: () => <DataTableRowActions />,
+    id: "is_archived", // date & time
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ]

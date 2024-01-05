@@ -1,7 +1,12 @@
+import { Helmet } from 'react-helmet';
 
 const FeedDetails = () => {
   return (
-    <div>FeedDetails</div>
+    <>
+      <Helmet>
+        <title>Archives | Aircall</title>
+      </Helmet>
+    </>
   )
 }
 
