@@ -1,20 +1,13 @@
-
-
-
-import SearchBar from "@/components/search-bar"
-import Sidebar from "@/components/side-bar"
-import TabMenu from "@/components/tab-menu"
+import Sidebar from "@/components/side-bar";
+import TabMenu from "@/components/tab-menu";
 
 import { Helmet } from "react-helmet";
 
-import { Outlet } from "react-router-dom"
 import Header from "@/components/header";
+import { Outlet } from "react-router-dom";
 
 
 export default function DesktopLayout() {
-
-
-
   return (
     <>
       <Helmet>
@@ -29,8 +22,6 @@ export default function DesktopLayout() {
         <div className="container pt-16">
           {/* sticky actions */}
           <div className="space-y-4 mb-5 sticky top-[62px] bg-white z-10 pt-4 pb-2">
-            {/* search bar */}
-            <SearchBar />
             {/* tabmenu */}
             <TabMenu />
           </div>

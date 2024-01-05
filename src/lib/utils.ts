@@ -1,8 +1,7 @@
 /* eslint-disable no-dupe-else-if */
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import parsePhoneNumber from "libphonenumber-js";
 import { Call } from "@/types/schema";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -22,17 +21,15 @@ export function convertSecondstoTime(givenSeconds: number) {
   return timeString;
 }
 
-export function formatPhoneNumber(phoneNumberString: string) {
-  const phone = parsePhoneNumber(phoneNumberString)?.format("E.164", {
-    fromCountry: "US",
-  });
-  return phone;
-}
-
 export function getNumber(data: Call) {
   if (data.direction == "outbound") {
     return data.to || data.via;
   } else {
     return data.from || data.via;
   }
+}
+
+export function capitalizeFirstChar(s: string | undefined) {
+  if (!s) return "";
+  return s[0].toUpperCase() + s.substring(1, s.length);
 }

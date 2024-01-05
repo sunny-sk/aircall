@@ -1,19 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
-import { Helmet } from 'react-helmet';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { BASE_URL } from '@/constants';
-import { ArrowLeft, PhoneIncoming, PhoneOutgoing, UserRound } from 'lucide-react';
-import { convertSecondstoTime, getNumber } from '@/lib/utils';
-import { MoreVertical } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+import { BASE_URL } from '@/constants';
+import { convertSecondstoTime, getNumber } from '@/lib/utils';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { ArrowLeft, MoreVertical, PhoneIncoming, PhoneOutgoing, UserRound } from 'lucide-react';
+import { Helmet } from 'react-helmet';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import DetailsLoader from '@/components/loaders/details-loader'
+import DetailsLoader from '@/components/loaders/details-loader';
+import { DataTableRowActions } from "@/components/table/components/data-table-row-actions";
 
 const FeedDetails = () => {
   const params = useParams();
@@ -24,13 +23,13 @@ const FeedDetails = () => {
         .get(BASE_URL + `/activities/${params.feedId}`)
         .then((res) => res.data),
   })
-  console.log(data)
+
+
   return (
     <>
       <Helmet>
         <title>Archives | Aircall</title>
       </Helmet>
-
       <div>
         {isLoading && <DetailsLoader />}
         {/* top */}
@@ -45,17 +44,15 @@ const FeedDetails = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger><MoreVertical color='white' /></DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  <DropdownMenuItem>{
-                    data.is_archived ? "Unarchive" : "Archive"
-                  }</DropdownMenuItem>
+                  <DataTableRowActions className='border-none w-full' row={{ original: data }} />
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </div>
           {/* card */}
-          <div className='absolute bg-white shadow-md rounded-md w-4/5 md:w-[420px] mx-auto top-16 left-[50%] -translate-x-[50%] p-3'>
+          <div className='absolute bg-white shadow-md rounded-md w-4/5 md:w-[420px] mx-auto top-16 md:top-24 left-[50%] -translate-x-[50%] p-3'>
             {/* avatar */}
-            <div className='h-20 w-20 bg-gray-100 absolute rounded-full -top-9 left-[50%] -translate-x-[50%] p-2 flex justify-center items-center'>
+            <div className='h-20 w-20 md:h-24 md:w-24 bg-gray-100 absolute rounded-full -top-9 md:-top-12 left-[50%] -translate-x-[50%] p-2 flex justify-center items-center'>
               {/* type */}
               <div className='absolute h-6 w-6 flex items-center justify-center rounded-full  -top-1 -left-0 border bottom-2 bg-primary-foreground border-gray-400'>
                 {data?.direction == 'outbound' && <PhoneOutgoing color="green" className="h-3" />}
@@ -65,14 +62,14 @@ const FeedDetails = () => {
             </div>
             <br /><br />
             {/* details */}
-            <div className='text-center space-y-6'>
-              <div className='space-y-1'>
-                <p className='text-xl font-medium text-gray-800'> +33 {getNumber(data)}
+            <div className='text-center space-y-6 md:space-y-8'>
+              <div className='space-y-1 md:space-y-2'>
+                <p className='text-xl md:text-2xl font-medium text-gray-800'> +33 {getNumber(data)}
                 </p>
-                <p className='text-md text-gray-600'>{convertSecondstoTime(data?.duration)}</p>
-                <p className='text-sm text-gray-500'>{new Date(data?.created_at).toLocaleString()}</p>
+                <p className='text-md md:text-lg text-gray-600'>{convertSecondstoTime(data?.duration)}</p>
+                <p className='text-sm md:text-md text-gray-500'>{new Date(data?.created_at).toLocaleString()}</p>
               </div>
-              <a href={`tel:+33${getNumber(data)}`} className='px-3 py-2 w-auto inline-block rounded-full bg-primary text-white'>Call back</a>
+              <a href={`tel:+33${getNumber(data)}`} className='px-8 py-2 w-auto inline-block rounded-full bg-primary text-white md:text-2xl'>Call back</a>
               <br />
               <br />
             </div>

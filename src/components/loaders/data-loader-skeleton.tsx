@@ -1,7 +1,11 @@
 import { Skeleton } from "@/components/ui/skeleton"
-const DataTableLoader = () => {
+const DataLoaderSkeleton = () => {
   return (
     <div className="space-y-2">
+      <div className="flex justify-between items-center mb-3">
+        <Skeleton className="w-[90px] h-[20px] rounded-sm md:bg-white" />
+        <Skeleton className="w-[90px] h-[40px] rounded-sm md:bg-white" />
+      </div>
       {new Array(10).fill(0).map((_, index) => {
         return <Skeleton key={index} className="w-full h-12 rounded-sm md:bg-white" />
       })}
@@ -20,4 +24,4 @@ const DataTableLoader = () => {
   )
 }
 
-export default DataTableLoader
+export default DataLoaderSkeleton

@@ -6,7 +6,7 @@ import { BASE_URL } from "@/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from 'axios';
 
-export function DataTableRowActions({ row }: any) {
+export function DataTableRowActions({ row, className }: any) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async ({ id, val }: { id: string; val: boolean }) => {
@@ -14,27 +14,27 @@ export function DataTableRowActions({ row }: any) {
         is_archived: !val,
       })
     },
-    onMutate: () => {
-    },
-    onSuccess: (a, b) => {
-      console.log(a, b)
-      toast(a.data);
+
+    onSuccess: (res) => {
+      toast(res.data);
       queryClient.invalidateQueries({ queryKey: ["activities"] });
-      queryClient.invalidateQueries({ queryKey: ["activities-archived"] });
+      queryClient.invalidateQueries({ queryKey: ["archived"] });
     },
     onError: () => {
+      toast('Error occured, please try again later!');
+    }
 
-    },
   });
   return (
     <Button
+      disabled={mutation.isPending}
       onClick={() => {
         mutation.mutate({ id: row.original.id, val: row.original.is_archived });
       }}
       variant="outline"
-      className="flex h-8  "
+      className={`flex h-8  w-[90px] ${className}`}
     >
-      {row.original.is_archived ? 'Unarchive' : "Archive"}
+      {mutation.isPending ? '...' : <>{row.original.is_archived ? 'Unarchive' : "Archive"}</>}
     </Button>
   )
 }

@@ -1,14 +1,13 @@
-import { DataTable } from "@/components/table/components/data-table"
-import { columns } from "@/components/table/components/columns"
-import PhoneList from "@/components/phone-list"
-import { callSchema } from "@/types/schema"
-import { z } from "zod";
-import { Helmet } from "react-helmet";
-import axios from 'axios';
 
-import { useQuery } from "@tanstack/react-query"
-import { BASE_URL } from "@/constants"
-import DataTableLoader from "@/components/loaders/data-table-loader"
+import { callSchema } from "@/types/schema";
+import axios from 'axios';
+import { Helmet } from "react-helmet";
+import { z } from "zod";
+
+import { BASE_URL } from "@/constants";
+import { useQuery } from "@tanstack/react-query";
+import ShowDataList from "@/components/show-data-list";
+
 
 
 export default function Feed() {
@@ -24,18 +23,7 @@ export default function Feed() {
       <Helmet>
         <title>Home | Aircall</title>
       </Helmet>
-      {/* table */}
-      {!isLoading && data && <>
-        <div className="md:hidden">
-          <PhoneList data={data} />
-        </div>
-        <div className="hidden md:block">
-          <DataTable data={data} columns={columns} />
-        </div>
-      </>
-      }
-
-      {isLoading && <DataTableLoader />}
+      <ShowDataList data={data} isLoading={isLoading} />
     </>
   )
 }
